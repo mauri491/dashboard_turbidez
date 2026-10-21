@@ -316,9 +316,7 @@ p {
   padding: 4px 3px 6px;
   scrollbar-width: none;
 }
-.filmstrip::-webkit-scrollbar {
-  display: none;
-}
+
 .filmstrip-scrollbar {
   position: relative;
   height: 5px;
@@ -334,6 +332,10 @@ p {
   height: 100%;
   border-radius: inherit;
   background: var(--muted);
+}
+
+.filmstrip::-webkit-scrollbar {
+  display: none;
 }
 .scene-thumbnail {
   display: grid;
