@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f1e7" />
+    <meta
+      name="description"
+      content="Explorá ocho observaciones satelitales de turbidez del río Paraná entre Chaco y Corrientes."
+    />
+    <title>Turbidez del río Paraná</title>
+    <link rel="preload" href="processed/scenes.json" as="fetch" crossorigin />
+    <link rel="stylesheet" href="styles.css?rev=filmstrip" />
+    <script src="app.js?rev=filmstrip" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#first-scene">Ir a la línea temporal</a>
+    <main id="explorador" class="explorer">
+      <div class="intro">
+        <h1>Turbidez del Paraná</h1>
+        <p>
+          A partir de imágenes del satélite Sentinel‑2 y ciertos puntos de
+          muestreo se mapea la turbidez del río Paraná entre Chaco y Corrientes.
+        </p>
+      </div>
+      <div class="layer-controls" role="group" aria-label="Capa del mapa">
+        <button
+          type="button"
+          data-layer="satellite"
+          aria-pressed="true"
+          disabled
+        >
+          Satélite
+        </button>
+        <button
+          type="button"
+          data-layer="turbidity"
+          aria-pressed="false"
+          disabled
+        >
+          Turbidez
+        </button>
+      </div>
+
+      <section class="map" aria-label="Río Paraná entre Chaco y Corrientes">
+        <div class="map-stage">
+          <div class="image-plane">
+            <img id="satellite-image" width="219" height="218" alt="" />
+            <img id="turbidity-image" width="219" height="218" alt="" hidden />
+            <div id="sample-markers" class="sample-markers"></div>
+            <div class="map-scale" aria-label="Escala: 500 metros">
+              <span></span>500 m
+            </div>
+          </div>
+        </div>
+        <div id="map-message" class="map-message" role="status" hidden></div>
+        <div
+          id="legend"
+          class="legend"
+          aria-label="Escala de turbidez estimada: 0 a 250 o más, común a todas las fechas"
+          hidden
+        >
+          <span>0</span><i aria-hidden="true"></i><span>250+</span>
+          <small>Turbidez estimada (NTU)</small>
+        </div>
+        <div
+          id="sample-reading"
+          class="sample-reading"
+          aria-live="polite"
+        ></div>
+        <div class="map-caption">
+          <span>Chaco</span><span>Corrientes</span>
+        </div>
+      </section>
+
+      <section class="timeline" aria-label="Observaciones históricas">
+        <h2 id="selected-date" aria-live="polite">Cargando fecha…</h2>
+        <div
+          id="filmstrip"
+          class="filmstrip"
+          role="group"
+          aria-label="Seleccionar una de las ocho observaciones satelitales"
+        ></div>
+        <div class="filmstrip-scrollbar" aria-hidden="true"><span></span></div>
+      </section>
+    </main>
+
+    <footer id="proyecto" class="footer">
+      <div>
+        <h2>Obtención de las estimaciones</h2>
+      </div>
+      <div>
+        <p>
+           Mediante la aplicación de una <b>ecuación empírica</b> desarrollada a partir la reflectancia de distintas bandas espectrales correspondientes a imágenes satelitales de Sentinel-2 se busca analizar la <b>variabilidad espacial y temporal de la turbidez</b> en el río Paraná entre Chaco y Corrientes.
+        </p>
+        <p>$$log(turb) = 6.21\cdot\frac{B05}{B03}+4.18\cdot B04-3.87$$</p>
+        La ecuación fue desarrollada a partir de la información obtenida a lo largo de <b>ocho muestreos</b> entre 2023 y 2025 en los que se recolectaron <b>94 muestras de agua</b>.
+      </p>
+        <h2>Validación</h2>
+        <p>Los resultados permiten explorar la distribución de la turbidez en el área de estudio y <b>comparar las estimaciones correspondientes a distintas fechas</b>. Estos valores representan estimaciones derivadas de información satelital y deben interpretarse considerando las limitaciones del modelo y su validación <b>con mediciones in situ.</b>
+        </p>
+        <img id="validacion" src="img/validacion.png">
+
+        <small></small>
+        <small>Mauricio Acosta</small>
+      </div>
+      <a id="logo-gistaq" href="https://www.instagram.com/gistaq.utn/"><img src="img/logo-gistaq.png" width="100"></a>
+    </footer>
+  </body>
+</html>
