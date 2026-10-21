@@ -149,6 +149,40 @@ fetch('processed/scenes.json').then((response) => {
   }));
   layerButtons.forEach((button) => { button.disabled = false; });
   updateScrollbar();
+  let draggingScrollbar = false;
+
+function moveFilmstripFromPointer(event) {
+  const rect = scrollbar.getBoundingClientRect();
+  const maxScroll = filmstrip.scrollWidth - filmstrip.clientWidth;
+
+  if (maxScroll <= 0) return;
+
+  const fraction = Math.max(
+    0,
+    Math.min(1, (event.clientX - rect.left) / rect.width)
+  );
+
+  filmstrip.scrollLeft = fraction * maxScroll;
+}
+
+scrollbar.addEventListener('pointerdown', (event) => {
+  draggingScrollbar = true;
+  scrollbar.setPointerCapture(event.pointerId);
+  moveFilmstripFromPointer(event);
+});
+
+scrollbar.addEventListener('pointermove', (event) => {
+  if (!draggingScrollbar) return;
+  moveFilmstripFromPointer(event);
+});
+
+scrollbar.addEventListener('pointerup', () => {
+  draggingScrollbar = false;
+});
+
+scrollbar.addEventListener('pointercancel', () => {
+  draggingScrollbar = false;
+});
   renderScene();
 }).catch((error) => {
   message.hidden = false;
